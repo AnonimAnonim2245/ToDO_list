@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:tema4_2.ViewModel"
+             xmlns:model="clr-namespace:tema4_2.Models"
+             x:DataType="vm:MainViewModel"
+             Shell.TabBarIsVisible="False"
+             x:Class="tema4_2.View.MainPage"
+             Title="MainPage">
+    <Grid RowDefinitions="80, Auto, *"
+          ColumnDefinitions=".75*, .35*"
+          Padding="10"
+          RowSpacing="5"
+          ColumnSpacing="-10">
+       
+            
+         <Frame Grid.Row="0" BorderColor="Gray"
+               CornerRadius="0"
+               Padding="15"
+               Margin="5,7,1,8">
+            <Entry Placeholder="Enter ToDo item..."
+                  PlaceholderColor="Black"
+               Text="{Binding ToSaveOnDB.Name}"
+                
+                TextColor="Black"
+                Grid.Row="0"
+             />
+        </Frame>
+        
+        <Button Text="Save"
+                CornerRadius="0"
+                BackgroundColor="Gray"
+                Command="{Binding SaveOnDbCommand}"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5,7,1,8"/>
+        <Button Text="+"
+                Grid.Row="1"
+                Grid.Column="2"
+                BackgroundColor="White"
+                TextColor="Black"
+                FontSize="30"
+                Command="{Binding MoveToANewTab1Command}" />
+
+    <CollectionView SelectionMode="Single" SelectedItem="{Binding Todo}" 
+                    ItemsSource="{Binding ToDolist}"
+                    Grid.Row="2" 
+                    Grid.ColumnSpan="2"
+                    >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:ToDoModel">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+
+                                <SwipeItemView Grid.Column="1" Command="{Binding Source={RelativeSource AncestorType={x:Type  vm:MainViewModel}}, Path=DeleteOnDbCommand}"
+                                               CommandParameter="{Binding .}">
+                                    <StackLayout>
+                                        <Button BackgroundColor="Red" HeightRequest="79" WidthRequest="70" Text="X"  Margin="-20,5" >
+
+                                        </Button>
+                                    </StackLayout>
+
+                                </SwipeItemView>
+
+
+
+
+
+
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Border 
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center" 
+                        >
+
+                        <Grid ColumnDefinitions="auto, *, *"
+                              RowDefinitions="*,*"
+                              ColumnSpacing="12" 
+                              WidthRequest="400"
+                                 HeightRequest="80"
+                              
+                              >
+                            <CheckBox 
+                                    x:Name="checkBox"
+                                   Grid.Column="0"    
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Center" />
+                            <Label Grid.Column="1" Margin="0" Text="{Binding Name}" FontSize="20">
+
+                                <Label.Triggers>
+
+                                    <DataTrigger 
+                                            TargetType="Label"
+                                                    Binding="{Binding Source={x:Reference checkBox},Path=IsChecked}"
+                                                    Value="true">
+
+                                        <Setter Property="TextDecorations"
+                                                Value="Strikethrough" />
+
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label"
+                                                    Binding="{Binding Source={x:Reference checkBox},Path=IsChecked}"
+                                                    Value="false">
+
+
+                                        <Setter Property="TextDecorations"
+                                                Value="None" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+
+                            </Label>
+                           
+                            
+
+
+                            
+                            
+                        </Grid>
+
+                    </Border>
+                        </SwipeView>
+                </DataTemplate>
+
+               
+            </CollectionView.ItemTemplate>
+        
+    </CollectionView>
+        
+    </Grid>
+    
+
+</ContentPage>
