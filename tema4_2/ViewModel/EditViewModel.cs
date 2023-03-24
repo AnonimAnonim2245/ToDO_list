@@ -7,8 +7,6 @@ using System.Collections.ObjectModel;
 
 namespace tema4_2.ViewModel
 {
-    [QueryProperty("Text", "Text")]
-
     public partial class EditViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
@@ -16,11 +14,14 @@ namespace tema4_2.ViewModel
 
         [ObservableProperty]
         ToDoModel todo;
+
         [ObservableProperty]
         ToDoModel toSaveOnDB;
-        
-        private readonly DbConnection _dbConnection;
 
+        [ObservableProperty]
+        string text;
+
+        private readonly DbConnection _dbConnection;
 
         public EditViewModel(DbConnection dbConnection)
         {
@@ -37,11 +38,7 @@ namespace tema4_2.ViewModel
         {
             ToDolist = await _dbConnection.GetItemsAsync();
         }
-        [ObservableProperty]
-        string text;
-    
 
-     
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             Todo = query["Todo"] as ToDoModel;
@@ -49,24 +46,21 @@ namespace tema4_2.ViewModel
 
 
         [RelayCommand]
-        private async Task DeleteOnDb(ToDoModel todo)
+        private async Task DeleteOnDb()
         {
-            var modelToDelete = await _dbConnection.GetItemAsync(Todo.Id);
-            //if(modelToDelete != null)
-            {
-                
-                await _dbConnection.DeleteItemAsync(modelToDelete);
-                ToDolist = await _dbConnection.GetItemsAsync();
-                BackCommand.Execute(null);
-
-            }
-            
+            await _dbConnection.DeleteItemAsync(Todo);
+            BackCommand.Execute(null);
         }
-        
+
         [RelayCommand]
-        Task Back() => Shell.Current.GoToAsync("..");
+        async Task Back()
+        {
+            var prameters = new Dictionary<string, object> 
+            { 
+                { "IdUser", Todo.Id }
+            };
 
+           await Shell.Current.GoToAsync("..", prameters);
+        }
     }
-
-
 }

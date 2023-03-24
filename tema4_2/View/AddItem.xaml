@@ -5,55 +5,50 @@
              xmlns:model="clr-namespace:tema4_2.Models"
              xmlns:vm="clr-namespace:tema4_2.ViewModel"
              x:DataType="vm:AddViewModel"
-
              Shell.TabBarIsVisible="False"
              Title="AddItems">
     <VerticalStackLayout>
         <Grid RowDefinitions="80, Auto, *"
-          ColumnDefinitions=".50*,.50*"
-          Padding="10"
-          RowSpacing="5" 
-          ColumnSpacing="5"
-           
-          >
-            <Label
-            Grid.Row="0"
-            Text="Add Item"
-            Grid.ColumnSpan="3"     
-            FontSize="30"
-            FontAttributes="Bold"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" 
-            Margin="20"/>
-            <Frame Grid.Row="1" BorderColor="Gray"
-               CornerRadius="0"
-               Padding="15"
-               Margin="5,7,1,8"
-               Grid.ColumnSpan="3"   >
+              ColumnDefinitions=".50*,.50*"
+              Padding="10"
+              RowSpacing="5"
+              ColumnSpacing="5">
+            <Label Grid.Row="0"
+                   Text="Add Item"
+                   Grid.ColumnSpan="3"
+                   FontSize="30"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"
+                   Margin="20" />
+            <Frame Grid.Row="1"
+                   BorderColor="Gray"
+                   CornerRadius="0"
+                   Padding="15"
+                   Margin="5,7,1,8"
+                   Grid.ColumnSpan="3">
                 <Entry Placeholder="Enter ToDo item..."
-                PlaceholderColor="Black"
-                Text="{Binding ToSaveOnDB.Name}"
-                TextColor="Black"
-                Grid.Row="2"
-                       
-             />
+                       PlaceholderColor="Black"
+                       Text="{Binding ToSaveOnDB.Name}"
+                       TextColor="Black"
+                       Grid.Row="2" />
 
             </Frame>
             <Button Text="Save"
-                CornerRadius="0"
-                BackgroundColor="Gray"
-                Command="{Binding SaveOnDbCommand}"
-                Grid.Row="3"
-                Grid.Column="0"
-                Margin="5,7,1,8"/>
-         
+                    CornerRadius="0"
+                    BackgroundColor="Gray"
+                    Command="{Binding SaveOnDbCommand}"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="5,7,1,8" />
+
             <Button Text="Cancel"
-                CornerRadius="0"
-                BackgroundColor="Gray"
-                Command="{Binding BackCommand}"
-                Grid.Row="3"
-                Grid.Column="2"
-                Margin="5,7,1,8"/>
+                    CornerRadius="0"
+                    BackgroundColor="Gray"
+                    Command="{Binding BackCommand}"
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Margin="5,7,1,8" />
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

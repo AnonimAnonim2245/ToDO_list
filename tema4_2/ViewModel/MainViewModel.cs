@@ -5,107 +5,95 @@ using tema4_2.Services;
 using tema4_2.View;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Android.OS;
 
 namespace tema4_2.ViewModel
 {
-    public partial class MainViewModel : BaseViewModel
+    public partial class MainViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
-        List<ToDoModel> toDolist;
+        ObservableCollection<ToDoModel> toDolist;
 
         [ObservableProperty]
         ToDoModel todo;
 
         [ObservableProperty]
         ToDoModel toSaveOnDB;
+
         [ObservableProperty]
         ToDoModel toDeleteOnDB;
 
+        [ObservableProperty]
+        ObservableCollection<string> items;
+
+        [ObservableProperty]
+        string text;
+
         private readonly DbConnection _dbConnection;
         private readonly ObservableCollection<ToDoModel> models;
-        //public ICommand DeleteCommand { get; }
 
         public MainViewModel(DbConnection dbConnection)
         {
             _dbConnection = dbConnection;
-            toDolist = new List<ToDoModel>();
+            toDolist = new ObservableCollection<ToDoModel>();
             toSaveOnDB = new ToDoModel();
             todo = new ToDoModel();
-            //models = new ObservableCollection<ToDoModel>();
-            //DeleteCommand = new AsyncRelayCommand(DeleteModelAsync);
             GetInitalDataCommand.Execute(null);
-            
         }
 
         [RelayCommand]
         private async void GetInitalData()
         {
-            ToDolist = await _dbConnection.GetItemsAsync();
+            var toDoListBase = await _dbConnection.GetItemsAsync();
+            ToDolist = new ObservableCollection<ToDoModel>(toDoListBase); 
         }
-        [ObservableProperty]
-        ObservableCollection<string> items;
-        [ObservableProperty]
-        string text;
 
         [RelayCommand]
-
-        private async void GoToBasicNavigation()
+        private async void GoToAddItem()
         {
             await Shell.Current.GoToAsync(nameof(AddItem));
         }
-        partial void OnTodoChanged(ToDoModel value)
-        {
-            if (value == null) return;
-            GoToMoreInfo();
-        }
+
+
         [RelayCommand]
-        private async void GoToMoreInfo()
+        private async void GoToMoreInfo(ToDoModel todo)
         {
             var navigationParameter = new Dictionary<string, object>
-                {
-            { "Todo", Todo }
-                };
+            {
+                { "Todo", todo }
+            };
 
-            Todo = null;
-
-            await Shell.Current.GoToAsync(nameof(EditItem), navigationParameter);
+            await Shell.Current.GoToAsync($"{nameof(EditItem)}", navigationParameter);
         }
+
         [RelayCommand]
         public async Task DeleteOnDb(ToDoModel todo)
         {
-            
-            var modelToDelete = await _dbConnection.GetItemAsync(todo.Id);
-            
-           // if (modelToDelete != null)
-            {
-                await _dbConnection.DeleteItemAsync(modelToDelete);
-                //models.Remove(modelToDelete
-                ToDolist = await _dbConnection.GetItemsAsync();
-            }
+            ToDolist.Remove(todo);
+            await _dbConnection.DeleteItemAsync(todo);
         }
+
         [RelayCommand]
         private async void SaveOnDb()
         {
+            if (ToSaveOnDB.Name == null)
+                return;
 
+            ToDolist.Add(ToSaveOnDB);
             await _dbConnection.SaveItemAsync(ToSaveOnDB);
-            if (ToSaveOnDB.Name != null)
+        }
+
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            if (query.ContainsKey("IdUser"))
             {
-                ToDolist = await _dbConnection.GetItemsAsync();
+                var id = (int)query["IdUser"];
+
+                var todoItem = ToDolist.Where(x => x.Id == id).FirstOrDefault();
+
+                ToDolist.Remove(todoItem);
             }
-           
-        }
-        /*[RelayCommand]
-        private async void DeleteOnDb(string Text)
-        {
-            await _dbConnection.DeleteItemAsync(Todo => Todo.Id == Id);
-            ToDolist = await _dbConnection.GetItemsAsync();
-        }
-        */
-        [RelayCommand]
-        private async void MoveToANewTab1()
-        {
-            await Shell.Current.GoToAsync(nameof(AddItem));
         }
     }
-    
+
 }
