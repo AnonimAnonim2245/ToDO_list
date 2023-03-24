@@ -56,7 +56,7 @@
                                 <SwipeItemView Grid.Column="1" Command="{Binding Source={RelativeSource AncestorType={x:Type  vm:MainViewModel}}, Path=DeleteOnDbCommand}"
                                                CommandParameter="{Binding .}">
                                     <StackLayout>
-                                        <Button BackgroundColor="Red" HeightRequest="79" WidthRequest="70" Text="X"  Margin="-20,5" >
+                                        <Button BackgroundColor="Red" HeightRequest="79" WidthRequest="140" Text="X"  Margin="-20,5" >
 
                                         </Button>
                                     </StackLayout>

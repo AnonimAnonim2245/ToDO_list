@@ -15,11 +15,10 @@ namespace tema4_2.ViewModel
         List<ToDoModel> toDolist;
 
         [ObservableProperty]
-        ToDoModel todo = new();
+        ToDoModel todo;
         [ObservableProperty]
         ToDoModel toSaveOnDB;
-        [ObservableProperty]
-        ToDoModel toDeleteOnDB;
+        
         private readonly DbConnection _dbConnection;
 
 
@@ -28,7 +27,8 @@ namespace tema4_2.ViewModel
             _dbConnection = dbConnection;
             toDolist = new List<ToDoModel>();
             toSaveOnDB = new ToDoModel();
-            toDeleteOnDB = new ToDoModel();
+            //toDeleteOnDB = new ToDoModel();
+            todo = new ToDoModel();
             GetInitalDataCommand.Execute(null);
         }
 
@@ -49,12 +49,20 @@ namespace tema4_2.ViewModel
 
 
         [RelayCommand]
-        private async void DeleteOnDb()
+        private async Task DeleteOnDb(ToDoModel todo)
         {
-            await _dbConnection.DeleteItemAsync(ToSaveOnDB);
-            ToDolist = await _dbConnection.GetItemsAsync();
-            await Shell.Current.GoToAsync("..");
+            var modelToDelete = await _dbConnection.GetItemAsync(Todo.Id);
+            //if(modelToDelete != null)
+            {
+                
+                await _dbConnection.DeleteItemAsync(modelToDelete);
+                ToDolist = await _dbConnection.GetItemsAsync();
+                BackCommand.Execute(null);
+
+            }
+            
         }
+        
         [RelayCommand]
         Task Back() => Shell.Current.GoToAsync("..");
 

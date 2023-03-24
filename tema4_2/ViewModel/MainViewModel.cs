@@ -71,10 +71,12 @@ namespace tema4_2.ViewModel
             await Shell.Current.GoToAsync(nameof(EditItem), navigationParameter);
         }
         [RelayCommand]
-        public async Task DeleteOnDb()
+        public async Task DeleteOnDb(ToDoModel todo)
         {
-            var modelToDelete = await _dbConnection.GetItemAsync(Todo.Id);
-            if (modelToDelete != null)
+            
+            var modelToDelete = await _dbConnection.GetItemAsync(todo.Id);
+            
+           // if (modelToDelete != null)
             {
                 await _dbConnection.DeleteItemAsync(modelToDelete);
                 //models.Remove(modelToDelete
@@ -84,8 +86,13 @@ namespace tema4_2.ViewModel
         [RelayCommand]
         private async void SaveOnDb()
         {
+
             await _dbConnection.SaveItemAsync(ToSaveOnDB);
-            ToDolist = await _dbConnection.GetItemsAsync();
+            if (ToSaveOnDB.Name != null)
+            {
+                ToDolist = await _dbConnection.GetItemsAsync();
+            }
+           
         }
         /*[RelayCommand]
         private async void DeleteOnDb(string Text)

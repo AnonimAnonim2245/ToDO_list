@@ -66,11 +66,15 @@ namespace tema4_2.ViewModel
         }
 
         [RelayCommand]
-        private async void SaveOnDb()
+        private async Task SaveOnDb()
         {
             await _dbConnection.SaveItemAsync(ToSaveOnDB);
-            ToDolist = await _dbConnection.GetItemsAsync();
-            await Shell.Current.GoToAsync("..");
+            if (ToSaveOnDB.Name != null)
+            {
+                
+                ToDolist = await _dbConnection.GetItemsAsync();
+                await Shell.Current.GoToAsync("..");
+            }
         }
 
         [RelayCommand]

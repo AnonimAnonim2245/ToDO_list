@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tema4_2.View.AddItem"
+             xmlns:model="clr-namespace:tema4_2.Models"
              xmlns:vm="clr-namespace:tema4_2.ViewModel"
              x:DataType="vm:AddViewModel"
 
@@ -31,7 +32,7 @@
                Grid.ColumnSpan="3"   >
                 <Entry Placeholder="Enter ToDo item..."
                 PlaceholderColor="Black"
-                Text="{Binding Todo.Name}"
+                Text="{Binding ToSaveOnDB.Name}"
                 TextColor="Black"
                 Grid.Row="2"
                        
