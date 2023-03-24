@@ -4,8 +4,6 @@ using tema4_2.Models;
 using tema4_2.Services;
 using tema4_2.View;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Android.OS;
 
 namespace tema4_2.ViewModel
 {
@@ -15,29 +13,15 @@ namespace tema4_2.ViewModel
         ObservableCollection<ToDoModel> toDolist;
 
         [ObservableProperty]
-        ToDoModel todo;
-
-        [ObservableProperty]
         ToDoModel toSaveOnDB;
 
-        [ObservableProperty]
-        ToDoModel toDeleteOnDB;
-
-        [ObservableProperty]
-        ObservableCollection<string> items;
-
-        [ObservableProperty]
-        string text;
-
         private readonly DbConnection _dbConnection;
-        private readonly ObservableCollection<ToDoModel> models;
 
         public MainViewModel(DbConnection dbConnection)
         {
             _dbConnection = dbConnection;
-            toDolist = new ObservableCollection<ToDoModel>();
-            toSaveOnDB = new ToDoModel();
-            todo = new ToDoModel();
+            ToDolist = new ObservableCollection<ToDoModel>();
+            ToSaveOnDB = new ToDoModel();
             GetInitalDataCommand.Execute(null);
         }
 
@@ -53,7 +37,6 @@ namespace tema4_2.ViewModel
         {
             await Shell.Current.GoToAsync(nameof(AddItem));
         }
-
 
         [RelayCommand]
         private async void GoToMoreInfo(ToDoModel todo)
@@ -95,5 +78,4 @@ namespace tema4_2.ViewModel
             }
         }
     }
-
 }

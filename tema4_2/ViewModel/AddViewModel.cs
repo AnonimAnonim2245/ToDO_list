@@ -36,8 +36,10 @@ namespace tema4_2.ViewModel
         {
             ToDolist = await _dbConnection.GetItemsAsync();
         }
+
         [ObservableProperty]
         ObservableCollection<string> items;
+
         [ObservableProperty]
         string text;
 
@@ -52,6 +54,7 @@ namespace tema4_2.ViewModel
             if (value == null) return;
             GoToMoreInfo();
         }
+
         [RelayCommand]
         private async void GoToMoreInfo()
         {

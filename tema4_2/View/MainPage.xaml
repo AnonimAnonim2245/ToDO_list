@@ -87,7 +87,6 @@
                                     </Label.GestureRecognizers>
 
                                     <Label.Triggers>
-
                                         <DataTrigger TargetType="Label"
                                                      Binding="{Binding Source={x:Reference checkBox},Path=IsChecked}"
                                                      Value="true">
@@ -99,7 +98,6 @@
                                         <DataTrigger TargetType="Label"
                                                      Binding="{Binding Source={x:Reference checkBox},Path=IsChecked}"
                                                      Value="false">
-
 
                                             <Setter Property="TextDecorations"
                                                     Value="None" />

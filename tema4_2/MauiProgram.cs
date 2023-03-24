@@ -20,6 +20,7 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
         builder.Services.AddSingleton<View.MainPage>();
         builder.Services.AddSingleton<MainViewModel>();
         builder.Services.AddSingleton<View.EditItem>();
@@ -27,8 +28,6 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<View.AddItem>();
         builder.Services.AddSingleton<AddViewModel>();
-
-
 
         builder.Services.AddSingleton<DbConnection>();
 
