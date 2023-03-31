@@ -21,7 +21,7 @@ public class ToDoModel
         }
     }
 
-    public string Ok { get; set; }
+    public int Ok { get; set; }
 
 }
  

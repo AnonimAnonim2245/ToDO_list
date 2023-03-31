@@ -25,8 +25,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<View.EditItem>();
         builder.Services.AddSingleton<EditViewModel>();
 
-        builder.Services.AddSingleton<View.AddItem>();
-        builder.Services.AddSingleton<AddViewModel>();
+        builder.Services.AddTransient<View.AddItem>();
+        builder.Services.AddTransient<AddViewModel>();
 
 
 

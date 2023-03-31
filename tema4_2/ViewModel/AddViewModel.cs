@@ -9,8 +9,8 @@ using tema4_2.Messages;
 
 namespace tema4_2.ViewModel
 {
-    [QueryProperty("Text", "Text")]
-    public partial class AddViewModel : BaseViewModel
+    //[QueryProperty("Text", "Text")]
+    public partial class AddViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
         List<ToDoModel> toDolist;
@@ -28,6 +28,7 @@ namespace tema4_2.ViewModel
             _dbConnection = dbConnection;
             toDolist = new List<ToDoModel>();
             toSaveOnDB = new ToDoModel();
+            //Todo.Ok = 0;
             GetInitalDataCommand.Execute(null);
         }
 
@@ -41,53 +42,64 @@ namespace tema4_2.ViewModel
         [ObservableProperty]
         string text;
 
-        [RelayCommand]
-
-        private async void GoToBasicNavigation()
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            await Shell.Current.GoToAsync(nameof(AddItem));
-        }
-        partial void OnTodoChanged(ToDoModel value)
-        {
-            if (value == null) return;
-            GoToMoreInfo();
-        }
-        [RelayCommand]
-        private async void GoToMoreInfo()
-        {
-            var navigationParameter = new Dictionary<string, object>
-                {
-            { "Todo", Todo }
-                };
-
-            Todo = null;
-
-            await Shell.Current.GoToAsync(nameof(EditItem), navigationParameter);
+            Todo = query["Todo"] as ToDoModel;
+            Todo.Ok = 0;
         }
 
         [RelayCommand]
         private async Task SaveOnDb()
         {
+            if (ToSaveOnDB.Name == null)
+                return;
+            // ToDolist.Add(ToSaveOnDB);
             await _dbConnection.SaveItemAsync(ToSaveOnDB);
-            if (ToSaveOnDB.Name != null)
+            Todo.Ok = 1;
+            BackCommand.Execute(null);
+            /* (ToSaveOnDB.Name != null)
             {
                 
                 ToDolist = await _dbConnection.GetItemsAsync();
                 await Shell.Current.GoToAsync("..");
+            }*/
+        }
+
+        
+
+        [RelayCommand]
+
+         private async Task Back()
+         {
+            //var query = new Dictionary<string, object>();
+            if (Todo.Ok == 1)
+            {
+                Console.WriteLine("3");
+                var parameters = new Dictionary<string, object>()
+             {
+                 {"NameUser",ToSaveOnDB }
+                 //{"NameUser2",Todo.Id}
+             };
+                await Shell.Current.GoToAsync("..", parameters);
             }
+            else
+            {
+                var parameters = new Dictionary<string, object>()
+             {
+                 {"NameUser",null }
+                 //{"NameUser2",Todo.Id}
+             };
+                await Shell.Current.GoToAsync("..", parameters);
+                
+
+            }
+
+
+
+
+            // await Shell.Current.GoToAsync("..");
+
         }
 
-        [RelayCommand]
-        private async void MoveToANewTab1()
-        {
-            await Shell.Current.GoToAsync(nameof(AddItem));
-        }
-
-        [RelayCommand]
-        async Task Back()
-        {
-           await Shell.Current.GoToAsync("..");
-
-        }
     }
- }
+}
