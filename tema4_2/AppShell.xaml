@@ -10,7 +10,11 @@
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-        
+
+        <ShellContent Title="LoginPage"
+                      Route="LoginPage"
+                      ContentTemplate="{DataTemplate local:EditItems}"/>
+
     </TabBar>
     
 

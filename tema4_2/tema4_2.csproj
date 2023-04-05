@@ -49,9 +49,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
+		<PackageReference Include="Rg.Plugins.Popup.Eddy" Version="2.0.0.10" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
 	</ItemGroup>
 
@@ -61,6 +64,9 @@
 	  </Compile>
 	  <Compile Update="View\EditItem.xaml.cs">
 	    <DependentUpon>EditItem.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="View\EditItems.xaml.cs">
+	    <DependentUpon>EditItems.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -72,6 +78,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\EditItems.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

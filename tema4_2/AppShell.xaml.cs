@@ -8,7 +8,7 @@ public partial class AppShell : Shell
     {
 		InitializeComponent();
         
-        Routing.RegisterRoute(nameof(EditItem), typeof(EditItem));
+        Routing.RegisterRoute(nameof(EditItems), typeof(EditItems));
         Routing.RegisterRoute(nameof(AddItem), typeof(AddItem));
         
     }

@@ -1,76 +1,74 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Maui.Views;
 using tema4_2.Models;
 using tema4_2.Services;
 using tema4_2.View;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace tema4_2.ViewModel
 {
-    //[QueryProperty("Text", "Text")]
+    [QueryProperty("Text", "Text")]
 
-    public partial class EditViewModel : BaseViewModel, IQueryAttributable
+    public partial class EditViewModel : Popup
     {
-        [ObservableProperty]
-        List<ToDoModel> toDolist;
+        public List<ToDoModel> ToDolist { get; set; }
 
-        [ObservableProperty]
-        ToDoModel todo;
-
-        [ObservableProperty]
-        ToDoModel toSaveOnDB;
-
-        [ObservableProperty]
-        string text;
-
-        private readonly DbConnection _dbConnection;
-
-
-        public EditViewModel(DbConnection dbConnection)
+        public ICommand CloseCommand { get; set; }
+        public ObservableCollection<string> Items { get; set; }
+        //[ObservableProperty]
+        private ToDoModel _todo;
+        public ToDoModel Todo
         {
-            _dbConnection = dbConnection;
-            toDolist = new List<ToDoModel>();
-            toSaveOnDB = new ToDoModel();
-            //toDeleteOnDB = new ToDoModel();
-            todo = new ToDoModel();
-            GetInitalDataCommand.Execute(null);
-        }
-
-        [RelayCommand]
-        private async void GetInitalData()
-        {
-            ToDolist = await _dbConnection.GetItemsAsync();
-        }
-        
-
-     
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            Todo = query["Todo"] as ToDoModel;
-            Todo.Ok = 0;
-        }
-
-
-        [RelayCommand]
-        private async Task DeleteOnDb()
-        {
-            /*var modelToDelete = await _dbConnection.GetItemAsync(Todo.Id);
-            //if(modelToDelete != null)
+            get { return _todo; }
+            set
             {
-                
-                await _dbConnection.DeleteItemAsync(modelToDelete);
-                ToDolist = await _dbConnection.GetItemsAsync();
-                BackCommand.Execute(null);
-
+                if (_todo != value)
+                {
+                    _todo = value;
+                    OnPropertyChanged(nameof(Todo));
+                }
             }
-            */
-            Todo.Ok = 1;
-            await _dbConnection.DeleteItemAsync(Todo);
+        }
 
+        public ToDoModel ToSaveOnDb {get; set; }
+
+        public string Text { get; set; }
+
+        //private readonly DbConnection _dbConnection;
+
+
+        public EditViewModel()
+        {
+            Items = new ObservableCollection<string>();
+
+        }
+
+
+
+
+        // [RelayCommand]
+        // private async Task DeleteOnDb()
+        //{
+        /*var modelToDelete = await _dbConnection.GetItemAsync(Todo.Id);
+        //if(modelToDelete != null)
+        {
+
+            await _dbConnection.DeleteItemAsync(modelToDelete);
+            ToDolist = await _dbConnection.GetItemsAsync();
             BackCommand.Execute(null);
 
         }
-        
+
+        Todo.Ok = 1;
+        //await _dbConnection.DeleteItemAsync(Todo);
+
+        BackCommand.Execute(null);
+
+    }
+*/
+        /*
         [RelayCommand]
         async Task Back()
         {
@@ -86,13 +84,53 @@ namespace tema4_2.ViewModel
             }
             else
             {              
-                await Shell.Current.GoToAsync("..");
+                Close();
             }
                 
            
 
 
         }
+        */
+        [RelayCommand]
+
+        void Delete(string s)
+        {
+            Console.WriteLine('3');
+
+            char[] b = new char[s.Length];
+            StringReader sr = new StringReader(s);
+            sr.Read(b, 0, 13);
+            Console.WriteLine(b);
+            if (Items.Contains(s))
+            {
+                Items.Remove(s);
+            }
+            Close();
+        }
+        [RelayCommand]
+        void Add()
+        {
+            /*if (string.IsNullOrWhiteSpace(Text))
+                return;
+            Items.Add(Text);
+            Text = string.Empty;*/
+            CloseCommand = new Command(() =>
+            {
+                // Logic to close the pop-up screen
+            });
+        }
+        /* private void CancelButton_Clicked(object sender, EventArgs e)
+         {
+             Close();
+         }
+
+         private void SaveButton_Clicked(object sender, EventArgs e)
+         {
+
+
+             Close();
+         }*/
         //Task Back() => Shell.Current.GoToAsync("..");
 
     }

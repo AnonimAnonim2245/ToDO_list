@@ -1,6 +1,7 @@
 ﻿using tema4_2.Services;
 using tema4_2.ViewModel;
 using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 
 namespace tema4_2;
 
@@ -11,7 +12,8 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");

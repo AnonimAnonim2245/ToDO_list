@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:tema4_2.ViewModel"
              x:DataType="vm:EditViewModel"
+             xmlns:model="clr-namespace:tema4_2.Models"
              x:Class="tema4_2.View.EditItem"
                                         >
     <StackLayout Spacing="10" Padding="20">
@@ -20,14 +21,14 @@
             <Button Text="Delete"
                 CornerRadius="0"
                 BackgroundColor="Gray"
-                Command="{Binding DeleteOnDbCommand}"
+                
                 Grid.Row="3"
                 Grid.Column="0"
                 Margin="5,7,1,8"/>
             <Button Text="Cancel"
                 CornerRadius="0"
                 BackgroundColor="Gray"
-                Command="{Binding BackCommand}"
+           
                 Grid.Row="3"
                 Grid.Column="1"
                 Margin="5,7,1,8"/>

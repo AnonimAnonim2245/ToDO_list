@@ -6,6 +6,9 @@ using tema4_2.View;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Linq;
+using CommunityToolkit.Maui.Views;
+using System.Data.Common;
+
 //using Android.OS;
 
 namespace tema4_2.ViewModel
@@ -23,13 +26,13 @@ namespace tema4_2.ViewModel
         [ObservableProperty]
         ToDoModel toDeleteOnDB;
 
-        private readonly DbConnection _dbConnection;
+        private readonly tema4_2.Services.DbConnection _dbConnection;
         private readonly ObservableCollection<ToDoModel> models;
        
         //public ICommand DeleteCommand { get; }
         
 
-        public MainViewModel(DbConnection dbConnection)
+        public MainViewModel(tema4_2.Services.DbConnection dbConnection)
         {
             _dbConnection = dbConnection;
             toDolist = new ObservableCollection<ToDoModel>();
@@ -62,6 +65,7 @@ namespace tema4_2.ViewModel
                 {
             { "Todo", todo }
                 };
+          
             await Shell.Current.GoToAsync($"{nameof(AddItem)}",navigationParameter);
         }
        
@@ -69,12 +73,17 @@ namespace tema4_2.ViewModel
         private async void GoToMoreInfo(ToDoModel todo)
         {
             Todo.Id = -3;
-            var navigationParameter = new Dictionary<string, object>
-                {
-            { "Todo", todo }
-                };
-
-            await Shell.Current.GoToAsync($"{nameof(EditItem)}", navigationParameter);
+            //popup.BindingContext = new EditViewModel();
+            //this.ShowPopup(popup);
+            // create an instance of DbConnection
+            //var dbConnection = new tema4_2.Services.DbConnection();
+           // var editItems = new EditItems();
+            var popup = new EditItems(todo);
+            await Shell.Current.ShowPopupAsync(popup);
+            
+            
+            //await this.ShowPopupAsync(editItems);
+            //await Shell.Current.GoToAsync($"{nameof(EditItem)}", navigationParameter);
         }
         [RelayCommand]
         public async Task DeleteOnDb(ToDoModel todo)
@@ -137,6 +146,7 @@ namespace tema4_2.ViewModel
 
 
         }
+        
        
     }
     

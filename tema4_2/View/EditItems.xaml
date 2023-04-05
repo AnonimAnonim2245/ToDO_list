@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model="clr-namespace:tema4_2.Models"
+             xmlns:vm="clr-namespace:tema4_2.ViewModel"
+             x:DataType="vm:EditViewModel"  
+             x:Class="tema4_2.View.EditItems">
+    <StackLayout Spacing="10" Padding="20" WidthRequest="300" HeightRequest="400">
+        <Label  x:Name="myTodo"
+                FontSize="25"
+                        TextColor="Black"
+                        Grid.Row="2"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center"></Label>
+        <Grid RowDefinitions="80, Auto, *"
+                          ColumnDefinitions=".50*,.50*"
+                          Padding="10"
+                          RowSpacing="5" 
+                          ColumnSpacing="5">
+            
+            <Label 
+                       Text="{Binding Todo.Name}"   
+                        FontSize="25"
+                        TextColor="Black"
+                        Grid.Row="3"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+            
+                            <Button Text="Delete"
+                         CornerRadius="0"
+                         BackgroundColor="Gray"
+                         Clicked="DeleteButton_Clicked"
+                         Grid.Row="3"
+                         Grid.Column="0"
+                         Margin="5,7,1,8"/>
+                         <Button Text="Cancel"
+                         CornerRadius="0"
+                         BackgroundColor="Gray"
+                         Clicked="CancelButton_Clicked"
+                         Grid.Row="3"
+                         Grid.Column="1"
+                         Margin="5,7,1,8"/>
+
+         </Grid>
+                  
+    </StackLayout>
+</toolkit:Popup>
